@@ -20,8 +20,12 @@ from prompt import Prompt
 # Load environment variables
 load_dotenv()
 
-# Configure API key
-api_key = st.secrets["gemini_api_key"]
+
+# Configure API key from .env
+api_key = os.environ.get("gemini_api_key")
+if not api_key:
+    st.error("gemini_api_key not found in environment variables. Please check your .env file.")
+    st.stop()
 genai.configure(api_key=api_key)
 model = genai.GenerativeModel('gemini-1.5-flash')
 
